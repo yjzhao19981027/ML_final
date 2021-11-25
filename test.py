@@ -1,14 +1,17 @@
 import torch.utils.data
 import torch.backends.cudnn as cudnn
-from dataUtils.getLoader import getLoader
-
+from dataUtils.getCifar10 import getCifar10
+from torch.utils.data import DataLoader
 
 def test(Net):
     cuda = True if torch.cuda.is_available() else False
     cudnn.benchmark = True if torch.cuda.is_available() else False
 
-    dataloader = getLoader(train=False)
-
+    test_dataset = getCifar10(train=False)
+    test_loader = DataLoader(
+        dataset=test_dataset,
+        batch_size=64,
+    )
     """ test """
 
     net = Net
@@ -17,8 +20,8 @@ def test(Net):
     if cuda:
         net = net.cuda()
 
-    len_dataloader = len(dataloader)
-    data_iter = iter(dataloader)
+    len_dataloader = len(test_loader)
+    data_iter = iter(test_loader)
 
     i = 0
     n_total = 0

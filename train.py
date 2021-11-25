@@ -5,7 +5,9 @@ import torch.nn as nn
 from test import test
 import torch.optim as optim
 from LeNet import LeNet
-from dataUtils.getLoader import getLoader
+from dataUtils.getCifar10 import getCifar10
+from torch.utils.data import DataLoader
+
 
 # initialize para
 logs_path = 'logs'
@@ -20,7 +22,12 @@ weight_decay = 1e-5
 net = LeNet()
 
 # load dataLoader
-dataLoader = getLoader(image_size, batch_size, train=True)
+dataset = getCifar10(train=True)
+dataLoader = DataLoader(
+        dataset=dataset,
+        batch_size=64,
+        shuffle=True,
+)
 
 # initialize optimizer
 optimizer = optim.Adam(net.parameters(), lr=lr, weight_decay=weight_decay)

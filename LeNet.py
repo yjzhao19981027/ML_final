@@ -6,7 +6,7 @@ class LeNet(nn.Module):
     def __init__(self):
         super(LeNet, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv2d(1, 6, 5),     # 32*32*1 -> 28*28*6
+            nn.Conv2d(3, 6, 5),     # 32*32*1 -> 28*28*6
             nn.ReLU(),
             nn.MaxPool2d(2, 2)      # 28*28*6 -> 14*14*6
         )
