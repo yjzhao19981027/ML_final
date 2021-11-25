@@ -5,7 +5,7 @@ import torch.nn as nn
 from test import test
 import torch.optim as optim
 from LeNet import LeNet
-from getLoader import getLoader
+from dataUtils.getLoader import getLoader
 
 # initialize para
 logs_path = 'logs'

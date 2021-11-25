@@ -1,6 +1,6 @@
 import torch.utils.data
 import torch.backends.cudnn as cudnn
-from getLoader import getLoader
+from dataUtils.getLoader import getLoader
 
 
 def test(Net):
