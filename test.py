@@ -3,6 +3,7 @@ import torch.backends.cudnn as cudnn
 from dataUtils.getCifar10 import getCifar10
 from torch.utils.data import DataLoader
 
+
 def test(Net):
     cuda = True if torch.cuda.is_available() else False
     cudnn.benchmark = True if torch.cuda.is_available() else False

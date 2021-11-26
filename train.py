@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from test import test
 import torch.optim as optim
-from LeNet import LeNet
+from model.LeNet import LeNet
 from dataUtils.getCifar10 import getCifar10
 from torch.utils.data import DataLoader
 
@@ -15,7 +15,7 @@ cuda = True if torch.cuda.is_available() else False
 lr = 1e-3
 batch_size = 128
 image_size = 32
-n_epoch = 20
+n_epoch = 50
 weight_decay = 1e-5
 
 # load model
@@ -40,6 +40,7 @@ if cuda:
 
 best_acc = 0.0
 for epoch in range(n_epoch):
+    tot = 0.0
     len_dataloader = len(dataLoader)
     data_iter = iter(dataLoader)
     for i in range(len_dataloader):
@@ -54,15 +55,16 @@ for epoch in range(n_epoch):
 
         output = net(img)
         err = loss(output, label)
+        tot += err
         err.backward()
         optimizer.step()
         sys.stdout.write('\r epoch: %d, [iter: %d / all %d], loss: %f'
                          % (epoch, i + 1, len_dataloader, err.data.cpu().item()))
         sys.stdout.flush()
-
+    tot /= len_dataloader
     print('\n')
     acc = test(net)
-    print('Accuracy of the dataset: %f' % acc)
+    print('Accuracy of the dataset: %f  loss: %f' % (acc, tot))
     if acc > best_acc:
         best_acc = acc
         torch.save(net, os.path.join(logs_path, 'best_model.pth'))
